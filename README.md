@@ -1,11 +1,24 @@
 # Extract
 - เริ่มต้นด้วยการอ่านไฟล์ csv ด้วย pandas และหา Encoding ด้วย chardet ไม่งั้นจะขึ้นเป็นภาษาต่างดาว
+```
+data = pd.read_csv('02_Hotspot_Data_Ex.csv', encoding='TIS-620')
+```
 
 # Transform
 - แปลงข้อมูลด้วยการกำหนดคอลัมน์ของข้อมูลที่ต้องการ คือ LATITUDE, LONGITUDE, DATE,TIME, CONFIDENCE, TUMBOON, AUMPER, PROVINCE, NAME
+ ```
+columns = ['LATITUDE', 'LONGITUDE', 'DATE', 'TIME', 'CONFIDENCE', 'TUMBOON', 'AUMPER', 'PROVINCE', 'NAME']
+data = data[columns]
+ ```
 - ทำการกรองเอาเฉพาะคอลัมน์ NAME = เกษตกรรม และ มีค่า CONFIDENCE > 50
+```
+filter = data[(data['NAME'] == 'เกษตรกรรม') & (data['CONFIDENCE'] > 50)]
+```
 - ทำการเปลี่ยนข้อมูลวันที่และเวลา เป็น yyyy-MM-dd hh:mm:ss เพื่อให้ใช้งานกับ mysql ได้
-
+```
+filter['DATE'] = pd.to_datetime(data['DATE'], format='%d/%m/%Y',).dt.strftime('%Y-%m-%d')
+filter['TIME'] = pd.to_datetime(data['TIME'], format='%H%M',).dt.strftime('%H:%M:%S')
+```
 # Load
 - นำข้อมูลที่แปลงแล้วเข้า sql เริ่มจากสร้างฐานข้อมูลด้วย script ให้ตรงกับข้อมูลที่กรองมาแล้ว
 ```

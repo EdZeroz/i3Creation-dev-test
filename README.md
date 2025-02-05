@@ -31,4 +31,5 @@ for i, row in filter.iterrows():
     """, (row['LATITUDE'], row['LONGITUDE'], row['DATE'], row['TIME'], row['CONFIDENCE'], row['TUMBOON'], row['AUMPER'], row['PROVINCE'], row['NAME']))
 
 ได้ผลลัพธ์ดังนี้
+https://github.com/EdZeroz/i3Creation-dev-test/issues/1
 
